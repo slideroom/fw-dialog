@@ -7,7 +7,7 @@
     "build": "./node_modules/.bin/gulp build"
   },
   "dependencies": {
-    "fw": "file:../fw"
+    "fw": "git@github.com:learningmachine/fw.git#0.1.1"
   },
   "author": "",
   "license": "ISC",
