@@ -32,6 +32,10 @@ class DialogView {
   private dialogController: DialogController<{ hey: string }>;
   // ...
 
+  activate(data) {
+    // data is passed from an open call
+  }
+
   handleCancelClick() {
     this.dialogController.cancel();
   }
