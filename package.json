@@ -1,0 +1,25 @@
+{
+  "name": "fw-dialog",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "./node_modules/.bin/gulp build"
+  },
+  "dependencies": {
+    "fw": "file:../fw"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "del": "^2.2.1",
+    "dts-generator": "^1.7.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^5.2.1",
+    "gulp-replace": "^0.5.4",
+    "gulp-typescript": "^2.13.6",
+    "run-sequence": "^1.2.1",
+    "typescript": "1.8.9",
+    "vinyl-paths": "^2.1.0"
+  }
+}
