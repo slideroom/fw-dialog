@@ -44,16 +44,14 @@ export class DialogService {
       dialogElement.classList.add(classes.open);
     }, 100);
 
-    const prevent = (e: Event) => {
-      e.stopImmediatePropagation();
+    const stop = (e: Event) => {
       e.stopPropagation();
-      e.preventDefault();
     };
 
     // setup key listener for ESC; and call cancel or close or something on the controller...
     const close = (e: Event) => {
       resolver({ canceled: true, result: null });
-      prevent(e);
+      stop(e);
     };
 
     const escHandler = (e: KeyboardEvent) => {
@@ -63,7 +61,7 @@ export class DialogService {
     };
 
     dialogElement.addEventListener("click", close);
-    containerElement.addEventListener("click", prevent);
+    containerElement.addEventListener("click", stop);
 
     document.addEventListener("keydown", escHandler);
     await v.activate();
@@ -77,7 +75,7 @@ export class DialogService {
     // remove after a bit.. preferabbly when all animations are done...
     setTimeout(() => {
       v.remove();
-      containerElement.removeEventListener("click", prevent);
+      containerElement.removeEventListener("click", stop);
       containerElement.remove();
       dialogElement.removeEventListener("click", close);
       dialogElement.remove();

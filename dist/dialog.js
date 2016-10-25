@@ -51,7 +51,7 @@ var DialogService = (function () {
         key: "open",
         value: function open(view, data) {
             return __awaiter(this, void 0, Promise, regeneratorRuntime.mark(function callee$2$0() {
-                var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, prevent, close, escHandler, res;
+                var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, stop, close, escHandler, res;
                 return regeneratorRuntime.wrap(function callee$2$0$(context$3$0) {
                     while (1) switch (context$3$0.prev = context$3$0.next) {
                         case 0:
@@ -81,15 +81,13 @@ var DialogService = (function () {
                                 dialogElement.classList.add(classes.open);
                             }, 100);
 
-                            prevent = function prevent(e) {
-                                e.stopImmediatePropagation();
+                            stop = function stop(e) {
                                 e.stopPropagation();
-                                e.preventDefault();
                             };
 
                             close = function close(e) {
                                 resolver({ canceled: true, result: null });
-                                prevent(e);
+                                stop(e);
                             };
 
                             escHandler = function escHandler(e) {
@@ -99,7 +97,7 @@ var DialogService = (function () {
                             };
 
                             dialogElement.addEventListener("click", close);
-                            containerElement.addEventListener("click", prevent);
+                            containerElement.addEventListener("click", stop);
                             document.addEventListener("keydown", escHandler);
                             context$3$0.next = 23;
                             return v.activate();
@@ -117,7 +115,7 @@ var DialogService = (function () {
                             // remove after a bit.. preferabbly when all animations are done...
                             setTimeout(function () {
                                 v.remove();
-                                containerElement.removeEventListener("click", prevent);
+                                containerElement.removeEventListener("click", stop);
                                 containerElement.remove();
                                 dialogElement.removeEventListener("click", close);
                                 dialogElement.remove();
