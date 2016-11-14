@@ -50,7 +50,7 @@ var DialogService = (function () {
     _createClass(DialogService, [{
         key: "open",
         value: function open(view, data) {
-            return __awaiter(this, void 0, Promise, regeneratorRuntime.mark(function callee$2$0() {
+            return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function callee$2$0() {
                 var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, stop, close, escHandler, res;
                 return regeneratorRuntime.wrap(function callee$2$0$(context$3$0) {
                     while (1) switch (context$3$0.prev = context$3$0.next) {
