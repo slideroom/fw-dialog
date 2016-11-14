@@ -1,13 +1,13 @@
 {
   "name": "fw-dialog",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "./node_modules/.bin/gulp build"
   },
   "dependencies": {
-    "fw": "git@github.com:learningmachine/fw.git#0.1.3"
+    "fw": "git@github.com:learningmachine/fw.git#0.1.4"
   },
   "author": "",
   "typings": "./dist/fw-dialog.d.ts",
