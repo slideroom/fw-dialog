@@ -1,1 +1,4 @@
 node_modules
+.rpt2_cache
+.rts2_cache
+build-temp

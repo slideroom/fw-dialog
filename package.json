@@ -1,26 +1,27 @@
 {
   "name": "fw-dialog",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/fw-dialog.js",
+  "module": "dist/fw-dialog.js",
+  "typings": "dist/fw-dialog.d.ts",
   "scripts": {
-    "build": "./node_modules/.bin/gulp build"
+    "build": "rm -Rf build-temp && ./node_modules/.bin/tsc --module commonjs --target es6 --outDir build-temp -d && ./node_modules/.bin/dts-bundle --name fw-dialog --main build-temp/index.d.ts && ./node_modules/.bin/rollup -c && cp build-temp/fw-dialog.d.ts dist/"
   },
   "dependencies": {
-    "fw": "git@github.com:learningmachine/fw.git#0.1.7"
+    "fw": "git@github.com:learningmachine/fw.git#0.1.8"
   },
   "author": "",
-  "typings": "./dist/fw-dialog.d.ts",
   "license": "ISC",
   "devDependencies": {
-    "del": "^2.2.1",
-    "dts-generator": "^2.0.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^5.2.1",
-    "gulp-replace": "^0.5.4",
-    "gulp-typescript": "^2.13.6",
-    "run-sequence": "^1.2.1",
-    "typescript": "2.0.9",
-    "vinyl-paths": "^2.1.0"
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "dts-bundle": "^0.7.2",
+    "resolve": "^1.3.2",
+    "rollup": "^0.41.5",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-typescript2": "^0.2.1",
+    "tslib": "^1.6.0",
+    "typescript": "^2.1.6"
   }
 }
