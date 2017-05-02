@@ -1,4 +1,4 @@
-import { ContainerInstance, ViewEngine, View } from "fw";
+import { inject, ContainerInstance, ViewEngine, View, CloseStack, Bus, ViewRouterLocationChanged } from "fw";
 
 export interface makerOf<T> {
   new(...args): T;
@@ -16,7 +16,17 @@ const classes = {
   open: "open",
 };
 
+@inject
 export class DialogService {
+  private opened: Array<() => void> = [];
+
+  constructor(private closeStack: CloseStack, private bus: Bus) {
+    this.bus.subscribe(ViewRouterLocationChanged, () => {
+      this.opened.reverse().forEach(p => p());
+      this.opened = [];
+    });
+  }
+
   public async open<TResult>(view: makerOf<any>, data?: any): Promise<DialogResult<TResult>> {
     const ve = new ViewEngine(ContainerInstance);
 
@@ -44,8 +54,13 @@ export class DialogService {
       dialogElement.classList.add(classes.open);
     }, 100);
 
+    const closer = this.closeStack.enroll(() => resolver({ canceled: true }));
+
+    this.opened.push(() => closer.close());
+
     const stop = (e: Event) => {
       e.stopPropagation();
+      closer.closeAbove();
     };
 
     // setup key listener for ESC; and call cancel or close or something on the controller...
@@ -54,19 +69,14 @@ export class DialogService {
       stop(e);
     };
 
-    const escHandler = (e: KeyboardEvent) => {
-      if (e.keyCode == 27) {
-        close(e);
-      }
-    };
-
     dialogElement.addEventListener("click", close);
     containerElement.addEventListener("click", stop);
 
-    document.addEventListener("keydown", escHandler);
     await v.activate();
 
     const res = await returnPromise;
+
+    closer.close();
 
     // animate out??
     containerElement.classList.remove(classes.open);
@@ -79,7 +89,6 @@ export class DialogService {
       containerElement.remove();
       dialogElement.removeEventListener("click", close);
       dialogElement.remove();
-      document.removeEventListener("keydown", escHandler);
 
       document.body.classList.remove(classes.bodyOpen);
       document.documentElement.classList.remove(classes.bodyOpen);

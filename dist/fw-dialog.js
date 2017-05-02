@@ -1,4 +1,4 @@
-import { ContainerInstance, ViewEngine } from 'fw';
+import { Bus, CloseStack, ContainerInstance, ViewEngine, ViewRouterLocationChanged, inject } from 'fw';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -22,11 +22,18 @@ and limitations under the License.
 
 
 
+function __decorate(decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+}
 
 
 
-
-
+function __metadata(metadataKey, metadataValue) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(metadataKey, metadataValue);
+}
 
 function __awaiter(thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -48,15 +55,27 @@ var classes = {
     open: "open"
 };
 var DialogService = function () {
-    function DialogService() {
+    function DialogService(closeStack, bus) {
+        var _this = this;
+
         _classCallCheck(this, DialogService);
+
+        this.closeStack = closeStack;
+        this.bus = bus;
+        this.opened = [];
+        this.bus.subscribe(ViewRouterLocationChanged, function () {
+            _this.opened.reverse().forEach(function (p) {
+                return p();
+            });
+            _this.opened = [];
+        });
     }
 
     _createClass(DialogService, [{
         key: "open",
         value: function open(view, data) {
             return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
-                var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, stop, close, escHandler, res;
+                var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, closer, stop, close, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -86,9 +105,17 @@ var DialogService = function () {
                                     containerElement.classList.add(classes.open);
                                     dialogElement.classList.add(classes.open);
                                 }, 100);
+                                closer = this.closeStack.enroll(function () {
+                                    return resolver({ canceled: true });
+                                });
+
+                                this.opened.push(function () {
+                                    return closer.close();
+                                });
 
                                 stop = function stop(e) {
                                     e.stopPropagation();
+                                    closer.closeAbove();
                                 };
                                 // setup key listener for ESC; and call cancel or close or something on the controller...
 
@@ -98,15 +125,8 @@ var DialogService = function () {
                                     stop(e);
                                 };
 
-                                escHandler = function escHandler(e) {
-                                    if (e.keyCode == 27) {
-                                        close(e);
-                                    }
-                                };
-
                                 dialogElement.addEventListener("click", close);
                                 containerElement.addEventListener("click", stop);
-                                document.addEventListener("keydown", escHandler);
                                 _context.next = 23;
                                 return v.activate();
 
@@ -117,6 +137,7 @@ var DialogService = function () {
                             case 25:
                                 res = _context.sent;
 
+                                closer.close();
                                 // animate out??
                                 containerElement.classList.remove(classes.open);
                                 dialogElement.classList.remove(classes.open);
@@ -127,13 +148,12 @@ var DialogService = function () {
                                     containerElement.remove();
                                     dialogElement.removeEventListener("click", close);
                                     dialogElement.remove();
-                                    document.removeEventListener("keydown", escHandler);
                                     document.body.classList.remove(classes.bodyOpen);
                                     document.documentElement.classList.remove(classes.bodyOpen);
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 30:
+                            case 31:
                             case "end":
                                 return _context.stop();
                         }
@@ -145,6 +165,7 @@ var DialogService = function () {
 
     return DialogService;
 }();
+DialogService = __decorate([inject, __metadata("design:paramtypes", [CloseStack, Bus])], DialogService);
 var DialogController = function () {
     function DialogController(resolver) {
         _classCallCheck(this, DialogController);
