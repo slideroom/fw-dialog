@@ -17,7 +17,7 @@ declare module 'fw-dialog/dialog' {
     }
     export class DialogService {
         constructor(closeStack: CloseStack, bus: Bus);
-        open<TResult>(view: makerOf<any>, data?: any): Promise<DialogResult<TResult>>;
+        open<TResult>(view: makerOf<any>, data?: any, cssClass?: string): Promise<DialogResult<TResult>>;
     }
     export class DialogController<T> {
         constructor(resolver: (result: DialogResult<T>) => void);

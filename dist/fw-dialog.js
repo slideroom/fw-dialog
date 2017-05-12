@@ -73,7 +73,7 @@ var DialogService = function () {
 
     _createClass(DialogService, [{
         key: "open",
-        value: function open(view, data) {
+        value: function open(view, data, cssClass) {
             return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
                 var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, closer, stop, close, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -84,6 +84,7 @@ var DialogService = function () {
                                 dialogElement = document.createElement("div");
 
                                 dialogElement.classList.add(classes.wrapper);
+                                dialogElement.classList.add(cssClass);
                                 document.body.appendChild(dialogElement);
                                 containerElement = document.createElement("div");
 
@@ -127,14 +128,14 @@ var DialogService = function () {
 
                                 dialogElement.addEventListener("click", close);
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 23;
+                                _context.next = 24;
                                 return v.activate();
 
-                            case 23:
-                                _context.next = 25;
+                            case 24:
+                                _context.next = 26;
                                 return returnPromise;
 
-                            case 25:
+                            case 26:
                                 res = _context.sent;
 
                                 closer.close();
@@ -153,7 +154,7 @@ var DialogService = function () {
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 31:
+                            case 32:
                             case "end":
                                 return _context.stop();
                         }

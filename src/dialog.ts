@@ -27,11 +27,12 @@ export class DialogService {
     });
   }
 
-  public async open<TResult>(view: makerOf<any>, data?: any): Promise<DialogResult<TResult>> {
+  public async open<TResult>(view: makerOf<any>, data?: any, cssClass?: string): Promise<DialogResult<TResult>> {
     const ve = new ViewEngine(ContainerInstance);
 
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
+    dialogElement.classList.add(cssClass);
     document.body.appendChild(dialogElement);
 
     const containerElement = document.createElement("div");
