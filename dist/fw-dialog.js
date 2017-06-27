@@ -89,6 +89,7 @@ var DialogService = function () {
                                 containerElement = document.createElement("div");
 
                                 containerElement.classList.add(classes.container);
+                                containerElement.appendChild(document.createElement("div"));
                                 dialogElement.appendChild(containerElement);
                                 resolver = null;
                                 returnPromise = new Promise(function (res) {
@@ -101,7 +102,7 @@ var DialogService = function () {
 
                                 document.body.classList.add(classes.bodyOpen);
                                 document.documentElement.classList.add(classes.bodyOpen);
-                                v.renderTo(containerElement);
+                                v.renderTo(containerElement.children[0]);
                                 setTimeout(function () {
                                     containerElement.classList.add(classes.open);
                                     dialogElement.classList.add(classes.open);
@@ -128,14 +129,14 @@ var DialogService = function () {
 
                                 dialogElement.addEventListener("click", close);
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 24;
+                                _context.next = 25;
                                 return v.activate();
 
-                            case 24:
-                                _context.next = 26;
+                            case 25:
+                                _context.next = 27;
                                 return returnPromise;
 
-                            case 26:
+                            case 27:
                                 res = _context.sent;
 
                                 closer.close();
@@ -154,7 +155,7 @@ var DialogService = function () {
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 32:
+                            case 33:
                             case "end":
                                 return _context.stop();
                         }

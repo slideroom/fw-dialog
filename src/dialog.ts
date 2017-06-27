@@ -37,6 +37,7 @@ export class DialogService {
 
     const containerElement = document.createElement("div");
     containerElement.classList.add(classes.container);
+    containerElement.appendChild(document.createElement("div"));
     dialogElement.appendChild(containerElement);
 
     let resolver = null;
@@ -49,7 +50,7 @@ export class DialogService {
     document.body.classList.add(classes.bodyOpen);
     document.documentElement.classList.add(classes.bodyOpen);
 
-    v.renderTo(containerElement);
+    v.renderTo(containerElement.children[0] as HTMLElement);
     setTimeout(() => {
       containerElement.classList.add(classes.open);
       dialogElement.classList.add(classes.open);
