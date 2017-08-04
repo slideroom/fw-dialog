@@ -4,17 +4,13 @@
 
 declare module 'fw-dialog' {
     export * from "fw-dialog/dialog";
+    export * from "fw-dialog/popover";
+    export * from "fw-dialog/types";
 }
 
 declare module 'fw-dialog/dialog' {
     import { CloseStack, Bus } from "fw";
-    export interface makerOf<T> {
-        new (...args: any[]): T;
-    }
-    export interface DialogResult<T> {
-        canceled: boolean;
-        result: T;
-    }
+    import { makerOf, DialogResult } from "fw-dialog/types";
     export class DialogService {
         constructor(closeStack: CloseStack, bus: Bus);
         open<TResult>(view: makerOf<any>, data?: any, cssClass?: string): Promise<DialogResult<TResult>>;
@@ -24,6 +20,46 @@ declare module 'fw-dialog/dialog' {
         close(canceled?: boolean, result?: T): void;
         cancel(): void;
         ok(result: T): void;
+    }
+}
+
+declare module 'fw-dialog/popover' {
+    import { Bus, CloseStack } from "fw";
+    import { makerOf, DialogResult } from "fw-dialog/types";
+    export class PopoverCoordinator {
+        constructor(bus: Bus);
+        openAt(x: number, y: number, fixed?: boolean): void;
+        openAtElement(element: any, fixed?: boolean): void;
+        getPosition(popoverWidth: number, popoverHeight: number): {
+            x: number;
+            y: number;
+            fixed: boolean;
+        };
+        closeAll(): void;
+        closeAllAwaiters(): void;
+        push(resolver: any): void;
+        waitForOpen(): Promise<{}>;
+        waitForClose(): Promise<{}>;
+    }
+    export class PopoverService {
+        constructor(coordinator: PopoverCoordinator, closeStack: CloseStack);
+        open<TResult>(view: makerOf<any>, data?: any, element?: any): Promise<DialogResult<TResult>>;
+    }
+    export class PopoverController<T> {
+        constructor(resolver: (result: DialogResult<T>) => void);
+        close(canceled?: boolean, result?: T): void;
+        cancel(): void;
+        ok(result: T): void;
+    }
+}
+
+declare module 'fw-dialog/types' {
+    export interface makerOf<T> {
+        new (...args: any[]): T;
+    }
+    export interface DialogResult<T> {
+        canceled: boolean;
+        result: T;
     }
 }
 

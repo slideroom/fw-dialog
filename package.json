@@ -1,6 +1,6 @@
 {
   "name": "fw-dialog",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "",
   "main": "dist/fw-dialog.js",
   "module": "dist/fw-dialog.js",
@@ -9,6 +9,7 @@
     "build": "rm -Rf build-temp && ./node_modules/.bin/tsc --module commonjs --target es6 --outDir build-temp -d && ./node_modules/.bin/dts-bundle --name fw-dialog --main build-temp/index.d.ts && ./node_modules/.bin/rollup -c && cp build-temp/fw-dialog.d.ts dist/"
   },
   "dependencies": {
+    "document-offset": "^1.0.4",
     "fw": "git+ssh://git@github.com/learningmachine/fw.git#0.2.7"
   },
   "author": "",
@@ -16,10 +17,13 @@
   "devDependencies": {
     "babel-polyfill": "^6.23.0",
     "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2015-rollup": "^3.0.0",
     "dts-bundle": "^0.7.2",
     "resolve": "^1.3.2",
     "rollup": "^0.41.5",
     "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-commonjs": "^8.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
     "rollup-plugin-typescript2": "^0.2.1",
     "tslib": "^1.6.0",
     "typescript": "^2.1.6"

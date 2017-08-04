@@ -1,13 +1,5 @@
 import { inject, ContainerInstance, ViewEngine, View, CloseStack, Bus, ViewRouterLocationChanged } from "fw";
-
-export interface makerOf<T> {
-  new(...args): T;
-}
-
-export interface DialogResult<T> {
-  canceled: boolean;
-  result: T;
-}
+import { makerOf, DialogResult } from "./types";
 
 const classes = {
   wrapper: "fw-dialog-wrapper",
