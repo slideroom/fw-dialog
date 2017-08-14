@@ -6,6 +6,7 @@ declare module 'fw-dialog' {
     export * from "fw-dialog/dialog";
     export * from "fw-dialog/popover";
     export * from "fw-dialog/types";
+    export { Popover } from "fw-dialog/components/popover";
 }
 
 declare module 'fw-dialog/dialog' {
@@ -60,6 +61,15 @@ declare module 'fw-dialog/types' {
     export interface DialogResult<T> {
         canceled: boolean;
         result: T;
+    }
+}
+
+declare module 'fw-dialog/components/popover' {
+    import { ComponentEventBus } from "fw";
+    import { PopoverCoordinator } from "fw-dialog/popover";
+    export class Popover {
+        isFixed: boolean;
+        constructor(coordinator: PopoverCoordinator, ceb: ComponentEventBus);
     }
 }
 

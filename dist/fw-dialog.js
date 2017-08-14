@@ -1,4 +1,4 @@
-import { Bus, CloseStack, ContainerInstance, ViewEngine, ViewRouterLocationChanged, inject } from 'fw';
+import { Bus, CloseStack, ComponentEventBus, ContainerInstance, ViewEngine, ViewRouterLocationChanged, inject, prop } from 'fw';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -939,4 +939,60 @@ var PopoverController = function () {
     return PopoverController;
 }();
 
-export { DialogService, DialogController, PopoverCoordinator, PopoverService, PopoverController };
+var Popover = function () {
+    function Popover(coordinator, ceb) {
+        classCallCheck(this, Popover);
+
+        this.coordinator = coordinator;
+        this.ceb = ceb;
+        this.isOpen = false;
+    }
+
+    createClass(Popover, [{
+        key: "click",
+        value: function click(event) {
+            return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
+                var element;
+                return regeneratorRuntime.wrap(function _callee$(_context) {
+                    while (1) {
+                        switch (_context.prev = _context.next) {
+                            case 0:
+                                if (!this.isOpen) {
+                                    _context.next = 3;
+                                    break;
+                                }
+
+                                this.coordinator.closeAll();
+                                return _context.abrupt("return");
+
+                            case 3:
+                                element = event.target || event.srcElement;
+
+                                this.coordinator.openAtElement(element, this.isFixed);
+                                this.ceb.dispatch("open");
+                                _context.next = 8;
+                                return this.coordinator.waitForOpen();
+
+                            case 8:
+                                this.isOpen = true;
+                                _context.next = 11;
+                                return this.coordinator.waitForClose();
+
+                            case 11:
+                                this.isOpen = false;
+
+                            case 12:
+                            case "end":
+                                return _context.stop();
+                        }
+                    }
+                }, _callee, this);
+            }));
+        }
+    }]);
+    return Popover;
+}();
+__decorate([prop(false), __metadata("design:type", Boolean)], Popover.prototype, "isFixed", void 0);
+Popover = __decorate([inject, __metadata("design:paramtypes", [PopoverCoordinator, ComponentEventBus])], Popover);
+
+export { Popover, DialogService, DialogController, PopoverCoordinator, PopoverService, PopoverController };
