@@ -1,4 +1,5 @@
 import { inject, ContainerInstance, ViewEngine, View, CloseStack, Bus, ViewRouterLocationChanged } from "fw";
+import { hideElement, focusElement } from "./helpers";
 
 export interface makerOf<T> {
   new(...args): T;
@@ -33,12 +34,28 @@ export class DialogService {
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
     dialogElement.classList.add(cssClass);
-    document.body.appendChild(dialogElement);
 
     const containerElement = document.createElement("div");
     containerElement.classList.add(classes.container);
     containerElement.appendChild(document.createElement("div"));
+
+    const getViewElement = (): HTMLElement => containerElement.children[0] as HTMLElement;
+
+    const tabLooper = document.createElement("button");
+    const tabLooperOnFocus = () => focusElement(getViewElement());
+    tabLooper.addEventListener("focus", tabLooperOnFocus);
+
+    const tabLooper2 = document.createElement("button");
+    tabLooper2.addEventListener("focus", tabLooperOnFocus);
+
+    hideElement(tabLooper);
+    hideElement(tabLooper2);
+
+    dialogElement.appendChild(tabLooper);
     dialogElement.appendChild(containerElement);
+    dialogElement.appendChild(tabLooper2);
+
+    document.body.appendChild(dialogElement);
 
     let resolver = null;
     const returnPromise = new Promise<DialogResult<TResult>>((res) => resolver = res);
@@ -50,7 +67,7 @@ export class DialogService {
     document.body.classList.add(classes.bodyOpen);
     document.documentElement.classList.add(classes.bodyOpen);
 
-    v.renderTo(containerElement.children[0] as HTMLElement);
+    v.renderTo(getViewElement());
     setTimeout(() => {
       containerElement.classList.add(classes.open);
       dialogElement.classList.add(classes.open);
@@ -90,6 +107,10 @@ export class DialogService {
       containerElement.removeEventListener("click", stop);
       containerElement.remove();
       dialogElement.removeEventListener("click", close);
+
+      tabLooper.removeEventListener("focus", tabLooperOnFocus);
+      tabLooper2.removeEventListener("focus", tabLooperOnFocus);
+
       dialogElement.remove();
 
       document.body.classList.remove(classes.bodyOpen);

@@ -44,6 +44,27 @@ function __awaiter(thisArg, _arguments, P, generator) {
     });
 }
 
+var hideElement = function hideElement(el) {
+    el.style.cssText = "border: 0;\n    clip: rect(0 0 0 0);\n    height: 1px;\n    margin: -1px;\n    overflow: hidden;\n    padding: 0;\n    position: absolute;\n    width: 1px;";
+};
+var focusElement = function focusElement(el) {
+    if (el.getAttribute("tabindex") != null) {
+        el.removeAttribute("tabindex");
+    }
+    switch (el.tagName) {
+        case "A":
+        case "BUTTON":
+        case "INPUT":
+        case "SELECT":
+        case "TEXTAREA":
+            el.setAttribute("tabindex", "0");
+            break;
+        default:
+            el.setAttribute("tabindex", "-1");
+    }
+    el.focus();
+};
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -75,7 +96,7 @@ var DialogService = function () {
         key: "open",
         value: function open(view, data, cssClass) {
             return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
-                var ve, dialogElement, containerElement, resolver, returnPromise, controller, v, closer, stop, close, res;
+                var ve, dialogElement, containerElement, getViewElement, tabLooper, tabLooperOnFocus, tabLooper2, resolver, returnPromise, controller, v, closer, stop, close, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -85,12 +106,31 @@ var DialogService = function () {
 
                                 dialogElement.classList.add(classes.wrapper);
                                 dialogElement.classList.add(cssClass);
-                                document.body.appendChild(dialogElement);
                                 containerElement = document.createElement("div");
 
                                 containerElement.classList.add(classes.container);
                                 containerElement.appendChild(document.createElement("div"));
+
+                                getViewElement = function getViewElement() {
+                                    return containerElement.children[0];
+                                };
+
+                                tabLooper = document.createElement("button");
+
+                                tabLooperOnFocus = function tabLooperOnFocus() {
+                                    return focusElement(getViewElement());
+                                };
+
+                                tabLooper.addEventListener("focus", tabLooperOnFocus);
+                                tabLooper2 = document.createElement("button");
+
+                                tabLooper2.addEventListener("focus", tabLooperOnFocus);
+                                hideElement(tabLooper);
+                                hideElement(tabLooper2);
+                                dialogElement.appendChild(tabLooper);
                                 dialogElement.appendChild(containerElement);
+                                dialogElement.appendChild(tabLooper2);
+                                document.body.appendChild(dialogElement);
                                 resolver = null;
                                 returnPromise = new Promise(function (res) {
                                     return resolver = res;
@@ -102,7 +142,7 @@ var DialogService = function () {
 
                                 document.body.classList.add(classes.bodyOpen);
                                 document.documentElement.classList.add(classes.bodyOpen);
-                                v.renderTo(containerElement.children[0]);
+                                v.renderTo(getViewElement());
                                 setTimeout(function () {
                                     containerElement.classList.add(classes.open);
                                     dialogElement.classList.add(classes.open);
@@ -129,14 +169,14 @@ var DialogService = function () {
 
                                 dialogElement.addEventListener("click", close);
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 25;
+                                _context.next = 35;
                                 return v.activate();
 
-                            case 25:
-                                _context.next = 27;
+                            case 35:
+                                _context.next = 37;
                                 return returnPromise;
 
-                            case 27:
+                            case 37:
                                 res = _context.sent;
 
                                 closer.close();
@@ -149,13 +189,15 @@ var DialogService = function () {
                                     containerElement.removeEventListener("click", stop);
                                     containerElement.remove();
                                     dialogElement.removeEventListener("click", close);
+                                    tabLooper.removeEventListener("focus", tabLooperOnFocus);
+                                    tabLooper2.removeEventListener("focus", tabLooperOnFocus);
                                     dialogElement.remove();
                                     document.body.classList.remove(classes.bodyOpen);
                                     document.documentElement.classList.remove(classes.bodyOpen);
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 33:
+                            case 43:
                             case "end":
                                 return _context.stop();
                         }
@@ -198,4 +240,4 @@ var DialogController = function () {
     return DialogController;
 }();
 
-export { DialogService, DialogController };
+export { DialogService, DialogController, hideElement, focusElement };

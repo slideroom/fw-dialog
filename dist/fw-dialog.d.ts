@@ -4,6 +4,7 @@
 
 declare module 'fw-dialog' {
     export * from "fw-dialog/dialog";
+    export * from "fw-dialog/helpers";
 }
 
 declare module 'fw-dialog/dialog' {
@@ -25,5 +26,10 @@ declare module 'fw-dialog/dialog' {
         cancel(): void;
         ok(result: T): void;
     }
+}
+
+declare module 'fw-dialog/helpers' {
+    export const hideElement: (el: HTMLElement) => void;
+    export const focusElement: (el: HTMLElement) => void;
 }
 
