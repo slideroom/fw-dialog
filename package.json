@@ -1,6 +1,6 @@
 {
   "name": "fw-dialog",
-  "version": "0.2.16",
+  "version": "0.3.0",
   "description": "",
   "main": "dist/fw-dialog.js",
   "module": "dist/fw-dialog.js",
@@ -9,7 +9,7 @@
     "build": "rm -Rf build-temp && ./node_modules/.bin/tsc --module commonjs --target es6 --outDir build-temp -d && ./node_modules/.bin/dts-bundle --name fw-dialog --main build-temp/index.d.ts && ./node_modules/.bin/rollup -c && cp build-temp/fw-dialog.d.ts dist/"
   },
   "dependencies": {
-    "fw": "git+ssh://git@github.com/derekpitt/fw.git#0.2.12"
+    "fw": "git+ssh://git@github.com/derekpitt/fw.git#0.3.0"
   },
   "author": "",
   "license": "ISC",

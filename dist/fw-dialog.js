@@ -1,4 +1,4 @@
-import { Bus, CloseStack, ContainerInstance, ViewEngine, ViewRouterLocationChanged, inject } from 'fw';
+import { Bus, CloseStack, ViewRouterLocationChanged, inject, makeAndActivate } from 'fw';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -96,12 +96,11 @@ var DialogService = function () {
         key: "open",
         value: function open(view, data, cssClass) {
             return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
-                var ve, dialogElement, containerElement, getViewElement, tabLooper, tabLooperOnFocus, tabLooper2, resolver, returnPromise, controller, v, closer, stop, close, res;
+                var dialogElement, containerElement, getViewElement, tabLooper, tabLooperOnFocus, tabLooper2, resolver, returnPromise, controller, closer, stop, close, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
-                                ve = new ViewEngine(ContainerInstance);
                                 dialogElement = document.createElement("div");
 
                                 dialogElement.classList.add(classes.wrapper);
@@ -136,13 +135,14 @@ var DialogService = function () {
                                     return resolver = res;
                                 });
                                 controller = new DialogController(resolver);
-                                v = ve.loadView(view, data, function (o) {
-                                    o.use(DialogController, controller);
+                                _context.next = 23;
+                                return makeAndActivate(view, getViewElement(), data, function (o) {
+                                    return o.use(DialogController, controller);
                                 });
 
+                            case 23:
                                 document.body.classList.add(classes.bodyOpen);
                                 document.documentElement.classList.add(classes.bodyOpen);
-                                v.renderTo(getViewElement());
                                 setTimeout(function () {
                                     containerElement.classList.add(classes.open);
                                     dialogElement.classList.add(classes.open);
@@ -169,14 +169,10 @@ var DialogService = function () {
 
                                 dialogElement.addEventListener("click", close);
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 35;
-                                return v.activate();
-
-                            case 35:
-                                _context.next = 37;
+                                _context.next = 34;
                                 return returnPromise;
 
-                            case 37:
+                            case 34:
                                 res = _context.sent;
 
                                 closer.close();
@@ -185,7 +181,6 @@ var DialogService = function () {
                                 dialogElement.classList.remove(classes.open);
                                 // remove after a bit.. preferabbly when all animations are done...
                                 setTimeout(function () {
-                                    v.remove();
                                     containerElement.removeEventListener("click", stop);
                                     containerElement.remove();
                                     dialogElement.removeEventListener("click", close);
@@ -197,7 +192,7 @@ var DialogService = function () {
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 43:
+                            case 40:
                             case "end":
                                 return _context.stop();
                         }

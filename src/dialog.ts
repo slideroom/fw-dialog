@@ -1,4 +1,4 @@
-import { inject, ContainerInstance, ViewEngine, View, CloseStack, Bus, ViewRouterLocationChanged } from "fw";
+import { inject, ContainerInstance, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "fw";
 import { hideElement, focusElement } from "./helpers";
 
 export interface makerOf<T> {
@@ -29,8 +29,6 @@ export class DialogService {
   }
 
   public async open<TResult>(view: makerOf<any>, data?: any, cssClass?: string): Promise<DialogResult<TResult>> {
-    const ve = new ViewEngine(ContainerInstance);
-
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
     dialogElement.classList.add(cssClass);
@@ -60,14 +58,11 @@ export class DialogService {
     let resolver = null;
     const returnPromise = new Promise<DialogResult<TResult>>((res) => resolver = res);
     const controller = new DialogController<TResult>(resolver);
-    const v = ve.loadView(view, data, (o) => {
-      o.use(DialogController, controller);
-    });
+    await makeAndActivate(view, getViewElement(), data, o => o.use(DialogController, controller));
 
     document.body.classList.add(classes.bodyOpen);
     document.documentElement.classList.add(classes.bodyOpen);
 
-    v.renderTo(getViewElement());
     setTimeout(() => {
       containerElement.classList.add(classes.open);
       dialogElement.classList.add(classes.open);
@@ -91,8 +86,6 @@ export class DialogService {
     dialogElement.addEventListener("click", close);
     containerElement.addEventListener("click", stop);
 
-    await v.activate();
-
     const res = await returnPromise;
 
     closer.close();
@@ -103,7 +96,6 @@ export class DialogService {
 
     // remove after a bit.. preferabbly when all animations are done...
     setTimeout(() => {
-      v.remove();
       containerElement.removeEventListener("click", stop);
       containerElement.remove();
       dialogElement.removeEventListener("click", close);
