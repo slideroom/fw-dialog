@@ -1,4 +1,4 @@
-import { inject, ContainerInstance, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "fw";
+import { inject, ContainerInstance, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "@derekpitt/fw";
 import { hideElement, focusElement } from "./helpers";
 
 export interface makerOf<T> {

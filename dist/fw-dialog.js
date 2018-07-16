@@ -1,4 +1,4 @@
-import { Bus, CloseStack, ViewRouterLocationChanged, inject, makeAndActivate } from 'fw';
+import { Bus, CloseStack, ViewRouterLocationChanged, inject, makeAndActivate } from '@derekpitt/fw';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
