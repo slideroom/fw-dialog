@@ -32,6 +32,7 @@ export class DialogService {
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
     dialogElement.classList.add(cssClass);
+    dialogElement.setAttribute("role", "dialog");
 
     const containerElement = document.createElement("div");
     containerElement.classList.add(classes.container);
@@ -48,6 +49,8 @@ export class DialogService {
 
     hideElement(tabLooper);
     hideElement(tabLooper2);
+    tabLooper.setAttribute("aria-hidden", "true");
+    tabLooper2.setAttribute("aria-hidden", "true");
 
     dialogElement.appendChild(tabLooper);
     dialogElement.appendChild(containerElement);

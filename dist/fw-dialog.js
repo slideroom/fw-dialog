@@ -105,6 +105,7 @@ var DialogService = function () {
 
                                 dialogElement.classList.add(classes.wrapper);
                                 dialogElement.classList.add(cssClass);
+                                dialogElement.setAttribute("role", "dialog");
                                 containerElement = document.createElement("div");
 
                                 containerElement.classList.add(classes.container);
@@ -126,6 +127,8 @@ var DialogService = function () {
                                 tabLooper2.addEventListener("focus", tabLooperOnFocus);
                                 hideElement(tabLooper);
                                 hideElement(tabLooper2);
+                                tabLooper.setAttribute("aria-hidden", "true");
+                                tabLooper2.setAttribute("aria-hidden", "true");
                                 dialogElement.appendChild(tabLooper);
                                 dialogElement.appendChild(containerElement);
                                 dialogElement.appendChild(tabLooper2);
@@ -135,12 +138,12 @@ var DialogService = function () {
                                     return resolver = res;
                                 });
                                 controller = new DialogController(resolver);
-                                _context.next = 23;
+                                _context.next = 26;
                                 return makeAndActivate(view, getViewElement(), data, function (o) {
                                     return o.use(DialogController, controller);
                                 });
 
-                            case 23:
+                            case 26:
                                 document.body.classList.add(classes.bodyOpen);
                                 document.documentElement.classList.add(classes.bodyOpen);
                                 setTimeout(function () {
@@ -169,10 +172,10 @@ var DialogService = function () {
 
                                 dialogElement.addEventListener("click", close);
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 34;
+                                _context.next = 37;
                                 return returnPromise;
 
-                            case 34:
+                            case 37:
                                 res = _context.sent;
 
                                 closer.close();
@@ -192,7 +195,7 @@ var DialogService = function () {
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 40:
+                            case 43:
                             case "end":
                                 return _context.stop();
                         }
