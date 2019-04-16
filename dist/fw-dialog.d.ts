@@ -16,9 +16,13 @@ declare module 'fw-dialog/dialog' {
         canceled: boolean;
         result: T;
     }
+    export type OpenOptions = {
+        cssClass?: string;
+        closeOnClick: boolean;
+    };
     export class DialogService {
         constructor(closeStack: CloseStack, bus: Bus);
-        open<TResult>(view: makerOf<any>, data?: any, cssClass?: string): Promise<DialogResult<TResult>>;
+        open<TResult>(view: makerOf<any>, data?: any, opts?: OpenOptions): Promise<DialogResult<TResult>>;
     }
     export class DialogController<T> {
         constructor(resolver: (result: DialogResult<T>) => void);

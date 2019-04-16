@@ -75,6 +75,9 @@ var classes = {
     bodyOpen: "fw-dialog-open",
     open: "open"
 };
+var defaultOptions = {
+    closeOnClick: false
+};
 var DialogService = function () {
     function DialogService(closeStack, bus) {
         var _this = this;
@@ -94,18 +97,19 @@ var DialogService = function () {
 
     _createClass(DialogService, [{
         key: "open",
-        value: function open(view, data, cssClass) {
+        value: function open(view, data, opts) {
             return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
-                var dialogElement, containerElement, getViewElement, tabLooper, tabLooperOnFocus, tabLooper2, resolver, returnPromise, controller, closer, stop, close, res;
+                var options, dialogElement, containerElement, getViewElement, tabLooper, tabLooperOnFocus, tabLooper2, resolver, returnPromise, controller, closer, stop, close, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
+                                options = Object.assign({}, defaultOptions, opts);
                                 dialogElement = document.createElement("div");
 
                                 dialogElement.classList.add(classes.wrapper);
-                                dialogElement.classList.add(cssClass);
                                 dialogElement.setAttribute("role", "dialog");
+                                if (options.cssClass) dialogElement.classList.add(options.cssClass);
                                 containerElement = document.createElement("div");
 
                                 containerElement.classList.add(classes.container);
@@ -138,12 +142,12 @@ var DialogService = function () {
                                     return resolver = res;
                                 });
                                 controller = new DialogController(resolver);
-                                _context.next = 26;
+                                _context.next = 27;
                                 return makeAndActivate(view, getViewElement(), data, function (o) {
                                     return o.use(DialogController, controller);
                                 });
 
-                            case 26:
+                            case 27:
                                 document.body.classList.add(classes.bodyOpen);
                                 document.documentElement.classList.add(classes.bodyOpen);
                                 setTimeout(function () {
@@ -170,12 +174,14 @@ var DialogService = function () {
                                     stop(e);
                                 };
 
-                                dialogElement.addEventListener("click", close);
+                                if (options.closeOnClick) {
+                                    dialogElement.addEventListener("click", close);
+                                }
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 37;
+                                _context.next = 38;
                                 return returnPromise;
 
-                            case 37:
+                            case 38:
                                 res = _context.sent;
 
                                 closer.close();
@@ -186,7 +192,9 @@ var DialogService = function () {
                                 setTimeout(function () {
                                     containerElement.removeEventListener("click", stop);
                                     containerElement.remove();
-                                    dialogElement.removeEventListener("click", close);
+                                    if (options.closeOnClick) {
+                                        dialogElement.removeEventListener("click", close);
+                                    }
                                     tabLooper.removeEventListener("focus", tabLooperOnFocus);
                                     tabLooper2.removeEventListener("focus", tabLooperOnFocus);
                                     dialogElement.remove();
@@ -195,7 +203,7 @@ var DialogService = function () {
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 43:
+                            case 44:
                             case "end":
                                 return _context.stop();
                         }

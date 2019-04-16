@@ -17,6 +17,15 @@ const classes = {
   open: "open",
 };
 
+export type OpenOptions = {
+  cssClass?: string;
+  closeOnClick: boolean;
+}
+
+const defaultOptions: OpenOptions = {
+  closeOnClick: false,
+}
+
 @inject
 export class DialogService {
   private opened: Array<() => void> = [];
@@ -28,11 +37,14 @@ export class DialogService {
     });
   }
 
-  public async open<TResult>(view: makerOf<any>, data?: any, cssClass?: string): Promise<DialogResult<TResult>> {
+  public async open<TResult>(view: makerOf<any>, data?: any, opts?: OpenOptions): Promise<DialogResult<TResult>> {
+    const options = Object.assign({}, defaultOptions, opts);
+
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
-    dialogElement.classList.add(cssClass);
     dialogElement.setAttribute("role", "dialog");
+    if (options.cssClass)
+      dialogElement.classList.add(options.cssClass);
 
     const containerElement = document.createElement("div");
     containerElement.classList.add(classes.container);
@@ -86,7 +98,10 @@ export class DialogService {
       stop(e);
     };
 
-    dialogElement.addEventListener("click", close);
+    if (options.closeOnClick) {
+      dialogElement.addEventListener("click", close);
+    }
+
     containerElement.addEventListener("click", stop);
 
     const res = await returnPromise;
@@ -101,7 +116,10 @@ export class DialogService {
     setTimeout(() => {
       containerElement.removeEventListener("click", stop);
       containerElement.remove();
-      dialogElement.removeEventListener("click", close);
+
+      if (options.closeOnClick) {
+        dialogElement.removeEventListener("click", close);
+      }
 
       tabLooper.removeEventListener("focus", tabLooperOnFocus);
       tabLooper2.removeEventListener("focus", tabLooperOnFocus);
