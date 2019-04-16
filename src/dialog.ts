@@ -19,7 +19,7 @@ const classes = {
 
 export type OpenOptions = {
   cssClass?: string;
-  closeOnClick: boolean;
+  closeOnClick?: boolean;
 }
 
 const defaultOptions: OpenOptions = {
