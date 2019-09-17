@@ -99,7 +99,7 @@ var DialogService = function () {
         key: "open",
         value: function open(view, data, opts) {
             return __awaiter(this, void 0, void 0, regeneratorRuntime.mark(function _callee() {
-                var options, dialogElement, containerElement, getViewElement, tabLooper, tabLooperOnFocus, tabLooper2, resolver, returnPromise, controller, closer, stop, close, res;
+                var options, dialogElement, containerElement, getViewElement, tabLoopStart, tabLooperOnFocus, tabLoopEnd, resolver, returnPromise, controller, closer, stop, close, res;
                 return regeneratorRuntime.wrap(function _callee$(_context) {
                     while (1) {
                         switch (_context.prev = _context.next) {
@@ -119,23 +119,23 @@ var DialogService = function () {
                                     return containerElement.children[0];
                                 };
 
-                                tabLooper = document.createElement("button");
+                                tabLoopStart = document.createElement("button");
 
                                 tabLooperOnFocus = function tabLooperOnFocus() {
                                     return focusElement(getViewElement());
                                 };
 
-                                tabLooper.addEventListener("focus", tabLooperOnFocus);
-                                tabLooper2 = document.createElement("button");
+                                tabLoopStart.addEventListener("focus", tabLooperOnFocus);
+                                tabLoopEnd = document.createElement("button");
 
-                                tabLooper2.addEventListener("focus", tabLooperOnFocus);
-                                hideElement(tabLooper);
-                                hideElement(tabLooper2);
-                                tabLooper.setAttribute("aria-hidden", "true");
-                                tabLooper2.setAttribute("aria-hidden", "true");
-                                dialogElement.appendChild(tabLooper);
+                                tabLoopEnd.addEventListener("focus", tabLooperOnFocus);
+                                hideElement(tabLoopStart);
+                                hideElement(tabLoopEnd);
+                                tabLoopStart.setAttribute("aria-label", "Begin Dialog");
+                                tabLoopEnd.setAttribute("aria-label", "End Dialog");
+                                dialogElement.appendChild(tabLoopStart);
                                 dialogElement.appendChild(containerElement);
-                                dialogElement.appendChild(tabLooper2);
+                                dialogElement.appendChild(tabLoopEnd);
                                 document.body.appendChild(dialogElement);
                                 resolver = null;
                                 returnPromise = new Promise(function (res) {
@@ -195,8 +195,8 @@ var DialogService = function () {
                                     if (options.closeOnClick) {
                                         dialogElement.removeEventListener("click", close);
                                     }
-                                    tabLooper.removeEventListener("focus", tabLooperOnFocus);
-                                    tabLooper2.removeEventListener("focus", tabLooperOnFocus);
+                                    tabLoopStart.removeEventListener("focus", tabLooperOnFocus);
+                                    tabLoopEnd.removeEventListener("focus", tabLooperOnFocus);
                                     dialogElement.remove();
                                     document.body.classList.remove(classes.bodyOpen);
                                     document.documentElement.classList.remove(classes.bodyOpen);

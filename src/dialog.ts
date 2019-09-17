@@ -52,21 +52,21 @@ export class DialogService {
 
     const getViewElement = (): HTMLElement => containerElement.children[0] as HTMLElement;
 
-    const tabLooper = document.createElement("button");
+    const tabLoopStart = document.createElement("button");
     const tabLooperOnFocus = () => focusElement(getViewElement());
-    tabLooper.addEventListener("focus", tabLooperOnFocus);
+    tabLoopStart.addEventListener("focus", tabLooperOnFocus);
 
-    const tabLooper2 = document.createElement("button");
-    tabLooper2.addEventListener("focus", tabLooperOnFocus);
+    const tabLoopEnd = document.createElement("button");
+    tabLoopEnd.addEventListener("focus", tabLooperOnFocus);
 
-    hideElement(tabLooper);
-    hideElement(tabLooper2);
-    tabLooper.setAttribute("aria-hidden", "true");
-    tabLooper2.setAttribute("aria-hidden", "true");
+    hideElement(tabLoopStart);
+    hideElement(tabLoopEnd);
+    tabLoopStart.setAttribute("aria-label", "Begin Dialog");
+    tabLoopEnd.setAttribute("aria-label", "End Dialog");
 
-    dialogElement.appendChild(tabLooper);
+    dialogElement.appendChild(tabLoopStart);
     dialogElement.appendChild(containerElement);
-    dialogElement.appendChild(tabLooper2);
+    dialogElement.appendChild(tabLoopEnd);
 
     document.body.appendChild(dialogElement);
 
@@ -121,8 +121,8 @@ export class DialogService {
         dialogElement.removeEventListener("click", close);
       }
 
-      tabLooper.removeEventListener("focus", tabLooperOnFocus);
-      tabLooper2.removeEventListener("focus", tabLooperOnFocus);
+      tabLoopStart.removeEventListener("focus", tabLooperOnFocus);
+      tabLoopEnd.removeEventListener("focus", tabLooperOnFocus);
 
       dialogElement.remove();
 
