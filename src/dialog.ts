@@ -43,6 +43,7 @@ export class DialogService {
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
     dialogElement.setAttribute("role", "dialog");
+    dialogElement.setAttribute("aria-modal", "true");
     if (options.cssClass)
       dialogElement.classList.add(options.cssClass);
 

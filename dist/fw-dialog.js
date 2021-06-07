@@ -109,6 +109,7 @@ var DialogService = function () {
 
                                 dialogElement.classList.add(classes.wrapper);
                                 dialogElement.setAttribute("role", "dialog");
+                                dialogElement.setAttribute("aria-modal", "true");
                                 if (options.cssClass) dialogElement.classList.add(options.cssClass);
                                 containerElement = document.createElement("div");
 
