@@ -20,10 +20,12 @@ const classes = {
 export type OpenOptions = {
   cssClass?: string;
   closeOnClick?: boolean;
+  ariaLabel?: string;
 }
 
 const defaultOptions: OpenOptions = {
   closeOnClick: false,
+  ariaLabel: "Dialog",
 }
 
 @inject
@@ -44,6 +46,7 @@ export class DialogService {
     dialogElement.classList.add(classes.wrapper);
     dialogElement.setAttribute("role", "dialog");
     dialogElement.setAttribute("aria-modal", "true");
+    dialogElement.setAttribute("aria-label", options.ariaLabel);
     if (options.cssClass)
       dialogElement.classList.add(options.cssClass);
 

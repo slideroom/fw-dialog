@@ -76,7 +76,8 @@ var classes = {
     open: "open"
 };
 var defaultOptions = {
-    closeOnClick: false
+    closeOnClick: false,
+    ariaLabel: "Dialog"
 };
 var DialogService = function () {
     function DialogService(closeStack, bus) {
@@ -110,6 +111,7 @@ var DialogService = function () {
                                 dialogElement.classList.add(classes.wrapper);
                                 dialogElement.setAttribute("role", "dialog");
                                 dialogElement.setAttribute("aria-modal", "true");
+                                dialogElement.setAttribute("aria-label", options.ariaLabel);
                                 if (options.cssClass) dialogElement.classList.add(options.cssClass);
                                 containerElement = document.createElement("div");
 
@@ -143,12 +145,12 @@ var DialogService = function () {
                                     return resolver = res;
                                 });
                                 controller = new DialogController(resolver);
-                                _context.next = 27;
+                                _context.next = 29;
                                 return makeAndActivate(view, getViewElement(), data, function (o) {
                                     return o.use(DialogController, controller);
                                 });
 
-                            case 27:
+                            case 29:
                                 document.body.classList.add(classes.bodyOpen);
                                 document.documentElement.classList.add(classes.bodyOpen);
                                 setTimeout(function () {
@@ -179,10 +181,10 @@ var DialogService = function () {
                                     dialogElement.addEventListener("click", close);
                                 }
                                 containerElement.addEventListener("click", stop);
-                                _context.next = 38;
+                                _context.next = 40;
                                 return returnPromise;
 
-                            case 38:
+                            case 40:
                                 res = _context.sent;
 
                                 closer.close();
@@ -204,7 +206,7 @@ var DialogService = function () {
                                 }, 600);
                                 return _context.abrupt("return", res);
 
-                            case 44:
+                            case 46:
                             case "end":
                                 return _context.stop();
                         }

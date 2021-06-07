@@ -19,6 +19,7 @@ declare module 'fw-dialog/dialog' {
     export type OpenOptions = {
         cssClass?: string;
         closeOnClick?: boolean;
+        ariaLabel?: string;
     };
     export class DialogService {
         constructor(closeStack: CloseStack, bus: Bus);
