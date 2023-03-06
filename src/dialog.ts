@@ -1,4 +1,4 @@
-import { inject, ContainerInstance, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "@derekpitt/fw";
+import { inject, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "@slideroom/fw";
 import { hideElement, focusElement } from "./helpers";
 
 export interface makerOf<T> {
@@ -46,7 +46,7 @@ export class DialogService {
     dialogElement.classList.add(classes.wrapper);
     dialogElement.setAttribute("role", "dialog");
     dialogElement.setAttribute("aria-modal", "true");
-    dialogElement.setAttribute("aria-label", options.ariaLabel);
+    dialogElement.setAttribute("aria-label", options.ariaLabel as string);
     if (options.cssClass)
       dialogElement.classList.add(options.cssClass);
 
@@ -74,7 +74,7 @@ export class DialogService {
 
     document.body.appendChild(dialogElement);
 
-    let resolver = null;
+    let resolver: any = null;
     const returnPromise = new Promise<DialogResult<TResult>>((res) => resolver = res);
     const controller = new DialogController<TResult>(resolver);
     await makeAndActivate(view, getViewElement(), data, o => o.use(DialogController, controller));
@@ -142,6 +142,7 @@ export class DialogController<T> {
   constructor(private resolver: (result: DialogResult<T>) => void) { }
 
   close(canceled = false, result?: T) {
+    // @ts-ignore
     this.resolver({ canceled, result });
   }
 
