@@ -44,6 +44,8 @@ export class DialogService {
 
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
+    dialogElement.setAttribute("aria-labelledby", "modal-title");
+    dialogElement.setAttribute("aria-describedby", "modal-content")
     dialogElement.setAttribute("role", "dialog");
     dialogElement.setAttribute("aria-modal", "true");
     dialogElement.setAttribute("aria-label", options.ariaLabel);
