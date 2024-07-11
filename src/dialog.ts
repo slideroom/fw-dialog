@@ -1,5 +1,5 @@
-import { inject, ContainerInstance, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "@derekpitt/fw";
-import { hideElement, focusElement } from "./helpers";
+import { inject, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } from "@derekpitt/fw";
+import { hideElement, focusElement } from "./helpers.js";
 
 export interface makerOf<T> {
   new(...args): T;
@@ -116,7 +116,7 @@ export class DialogService {
     containerElement.classList.remove(classes.open);
     dialogElement.classList.remove(classes.open);
 
-    // remove after a bit.. preferabbly when all animations are done...
+    // remove after a bit.. preferably when all animations are done...
     setTimeout(() => {
       containerElement.removeEventListener("click", stop);
       containerElement.remove();
