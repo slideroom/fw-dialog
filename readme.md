@@ -4,7 +4,7 @@ A quick dialog component for fw.
 
 To open a dialog:
 
-```
+```js
 import { DialogService } from "fw-dialog";
 
 
@@ -13,7 +13,7 @@ class ViewModel {
   // ...
 
   async openDialog() {
-    const result = await this.dialogservice.open(DialogView, { some: "data" });
+    const result = await this.dialogService.open(DialogView, { some: "data" });
 
     if (result.canceled) { // clicked out or canceled }
     else {
@@ -25,7 +25,7 @@ class ViewModel {
 
 To be a dialog:
 
-```
+```js
 import { DialogController } from "fw-dialog";
 
 class DialogView {
