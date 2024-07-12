@@ -31,7 +31,7 @@ let DialogService = class DialogService {
             this.opened = [];
         });
     }
-    async open(view, data, opts) {
+    async open(view, data, opts, originatingEvent) {
         const options = Object.assign({}, defaultOptions, opts);
         const dialogElement = document.createElement("div");
         dialogElement.classList.add(classes.wrapper);
@@ -77,6 +77,10 @@ let DialogService = class DialogService {
         const close = (e) => {
             resolver({ canceled: true, result: null });
             stop(e);
+            if (originatingEvent) {
+                // Set focus to the initial dom that trigger the popup
+                focusElement(originatingEvent.target);
+            }
         };
         if (options.closeOnClick) {
             dialogElement.addEventListener("click", close);
@@ -99,6 +103,10 @@ let DialogService = class DialogService {
             dialogElement.remove();
             document.body.classList.remove(classes.bodyOpen);
             document.documentElement.classList.remove(classes.bodyOpen);
+            if (originatingEvent) {
+                // Set focus to the initial dom that trigger the popup
+                focusElement(originatingEvent.target);
+            }
         }, 600);
         return res;
     }
