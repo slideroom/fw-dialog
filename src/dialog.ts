@@ -41,7 +41,6 @@ export class DialogService {
 
   public async open<TResult>(view: makerOf<any>, data?: any, opts?: OpenOptions, originatingEvent?: Event): Promise<DialogResult<TResult>> {
     const options = Object.assign({}, defaultOptions, opts);
-    
     const dialogElement = document.createElement("div");
     dialogElement.classList.add(classes.wrapper);
     dialogElement.setAttribute("role", "dialog");
@@ -100,11 +99,6 @@ export class DialogService {
     const close = (e: Event) => {
       resolver({ canceled: true, result: null });
       stop(e);
-      
-      if (originatingEvent) {
-        // Set focus to the initial dom that trigger the popup
-        focusElement(originatingEvent.target as HTMLElement);
-      }
     };
 
     if (options.closeOnClick) {

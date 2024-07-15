@@ -77,10 +77,6 @@ let DialogService = class DialogService {
         const close = (e) => {
             resolver({ canceled: true, result: null });
             stop(e);
-            if (originatingEvent) {
-                // Set focus to the initial dom that trigger the popup
-                focusElement(originatingEvent.target);
-            }
         };
         if (options.closeOnClick) {
             dialogElement.addEventListener("click", close);
