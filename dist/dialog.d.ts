@@ -16,7 +16,7 @@ export declare class DialogService {
     private bus;
     private opened;
     constructor(closeStack: CloseStack, bus: Bus);
-    open<TResult>(view: makerOf<any>, data?: any, opts?: OpenOptions): Promise<DialogResult<TResult>>;
+    open<TResult>(view: makerOf<any>, data?: any, opts?: OpenOptions, originatingEvent?: Event): Promise<DialogResult<TResult>>;
 }
 export declare class DialogController<T> {
     private resolver;
