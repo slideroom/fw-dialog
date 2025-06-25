@@ -1,6 +1,7 @@
 export const hideElement = (el: HTMLElement) => {
   el.style.cssText = `border: 0;
     clip: rect(0 0 0 0);
+    display: none;
     height: 1px;
     margin: -1px;
     overflow: hidden;
