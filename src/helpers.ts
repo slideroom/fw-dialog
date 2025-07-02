@@ -7,7 +7,6 @@ export const hideElement = (el: HTMLElement) => {
     padding: 0;
     position: absolute;
     width: 1px;`;
-   el.style.display = 'none';
    el.setAttribute('aria-hidden', 'true');
 };
 
