@@ -2,7 +2,7 @@ import { inject, CloseStack, Bus, ViewRouterLocationChanged, makeAndActivate } f
 import { hideElement, focusElement } from "./helpers.js";
 
 export interface makerOf<T> {
-  new(...args): T;
+  new(...args: unknown[]): T;
 }
 
 export interface DialogResult<T> {
@@ -45,9 +45,14 @@ export class DialogService {
     dialogElement.classList.add(classes.wrapper);
     dialogElement.setAttribute("role", "dialog");
     dialogElement.setAttribute("aria-modal", "true");
-    dialogElement.setAttribute("aria-label", options.ariaLabel);
-    if (options.cssClass)
+
+    if (options.ariaLabel) {
+      dialogElement.setAttribute("aria-label", options.ariaLabel);
+    }
+
+    if (options.cssClass) {
       dialogElement.classList.add(options.cssClass);
+    }
 
     const containerElement = document.createElement("div");
     containerElement.classList.add(classes.container);
@@ -131,7 +136,7 @@ export class DialogService {
 
       document.body.classList.remove(classes.bodyOpen);
       document.documentElement.classList.remove(classes.bodyOpen);
-      
+
       if (originatingEvent) {
         // Set focus to the initial dom that trigger the popup
         focusElement(originatingEvent.target as HTMLElement);
