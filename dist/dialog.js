@@ -37,9 +37,12 @@ let DialogService = class DialogService {
         dialogElement.classList.add(classes.wrapper);
         dialogElement.setAttribute("role", "dialog");
         dialogElement.setAttribute("aria-modal", "true");
-        dialogElement.setAttribute("aria-label", options.ariaLabel);
-        if (options.cssClass)
+        if (options.ariaLabel) {
+            dialogElement.setAttribute("aria-label", options.ariaLabel);
+        }
+        if (options.cssClass) {
             dialogElement.classList.add(options.cssClass);
+        }
         const containerElement = document.createElement("div");
         containerElement.classList.add(classes.container);
         containerElement.appendChild(document.createElement("div"));

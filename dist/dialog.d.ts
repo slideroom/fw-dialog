@@ -1,6 +1,6 @@
 import { CloseStack, Bus } from "@derekpitt/fw";
 export interface makerOf<T> {
-    new (...args: any[]): T;
+    new (...args: unknown[]): T;
 }
 export interface DialogResult<T> {
     canceled: boolean;

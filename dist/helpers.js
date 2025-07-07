@@ -7,6 +7,7 @@ export const hideElement = (el) => {
     padding: 0;
     position: absolute;
     width: 1px;`;
+    el.setAttribute('aria-hidden', 'true');
 };
 export const focusElement = (el) => {
     if (el.getAttribute("tabindex") != null) {
